@@ -5,7 +5,7 @@ import {
 import { ConfigService } from '@nestjs/config';
 import { PinoLogger } from 'nestjs-pino';
 import { TokenService } from './token.service';
-import { decrypt } from './crypto.util';
+import { decrypt, encrypt } from './crypto.util';
 
 const ENCRYPTION_KEY = 'a'.repeat(64);
 
@@ -121,6 +121,28 @@ describe('TokenService', () => {
     });
   });
 
+  describe('requestOtp — status 9', () => {
+    it('accepts status 9 as success', async () => {
+      truecallerjs.login.mockResolvedValue({ status: 9, requestId: 'req-9' });
+      const { service } = makeService();
+      const result = await service.requestOtp('sub-abc');
+      expect(result).toEqual({ requestId: 'req-9' });
+    });
+  });
+
+  describe('verifyOtp — default TTL', () => {
+    it('uses default TTL when response.ttl is absent', async () => {
+      truecallerjs.verifyOtp.mockResolvedValue({
+        status: 2,
+        suspended: false,
+        installationId: 'install-abc',
+      });
+      const { service, tcTokenRepo } = makeService();
+      await service.verifyOtp('req-123', '123456', 'sub-abc');
+      expect(tcTokenRepo.save).toHaveBeenCalled();
+    });
+  });
+
   describe('getStatus', () => {
     it('returns valid=false when no token exists', async () => {
       const { service } = makeService({
@@ -148,6 +170,37 @@ describe('TokenService', () => {
       const result = await service.getStatus();
       expect(result.valid).toBe(true);
       expect(result.hoursRemaining).toBeGreaterThanOrEqual(47);
+    });
+  });
+
+  describe('getInstallationId', () => {
+    it('returns decrypted installation id when token is valid', async () => {
+      const expiresAt = new Date(Date.now() + 3_600_000);
+      const { service } = makeService({
+        findOne: jest.fn().mockResolvedValue({
+          expiresAt,
+          installationIdEnc: encrypt('install-xyz', ENCRYPTION_KEY),
+        }),
+      });
+      const result = await service.getInstallationId();
+      expect(result).toBe('install-xyz');
+    });
+
+    it('returns null when no token exists', async () => {
+      const { service } = makeService({
+        findOne: jest.fn().mockResolvedValue(null),
+      });
+      expect(await service.getInstallationId()).toBeNull();
+    });
+
+    it('returns null when token is expired', async () => {
+      const { service } = makeService({
+        findOne: jest.fn().mockResolvedValue({
+          expiresAt: new Date(Date.now() - 1000),
+          installationIdEnc: 'irrelevant',
+        }),
+      });
+      expect(await service.getInstallationId()).toBeNull();
     });
   });
 });
