@@ -14,8 +14,8 @@ Commit messages: short summary only.
 | Phase | Branch | Scope | Status |
 |-------|--------|-------|--------|
 | 1 | `phase/1-scaffold` | Config module, env Joi schema, main.ts (helmet, pino, ValidationPipe), remove boilerplate | ✅ |
-| 2 | `phase/2-auth` | JwtStrategy (jwks-rsa), JwtAuthGuard, RolesGuard, @Roles decorator, AuthModule | ⬜ |
-| 3 | `phase/3-throttling` | JWT sub-keyed ThrottlerGuard, common filter + logging interceptor + phone util | ⬜ |
+| 2 | `phase/2-auth` | JwtStrategy (jwks-rsa), JwtAuthGuard, RolesGuard, @Roles decorator, AuthModule | ✅ |
+| 3 | `phase/3-throttling` | JWT sub-keyed ThrottlerGuard, common filter + logging interceptor + phone util | ✅ |
 | 4 | `phase/4-token-mgmt` | TokenService (OTP flow, AES-256-GCM), TokenController /admin/token/*, TokenScheduler (Telegram) | ⬜ |
 | 5 | `phase/5-cache` | Postgres-backed cache (LookupCache entity), cache-aside pattern wired | ⬜ |
 | 6 | `phase/6-lookup` | LookupController, LookupService, TruecallerService (circuit breaker), AuditService + Postgres | ⬜ |
