@@ -1,7 +1,4 @@
-# TrueCall API
-
-[![CI](https://github.com/alvinmarshall/truecall-api/actions/workflows/pr.yml/badge.svg)](https://github.com/alvinmarshall/truecall-api/actions/workflows/pr.yml)
-[![codecov](https://codecov.io/gh/alvinmarshall/truecall-api/branch/main/graph/badge.svg)](https://codecov.io/gh/alvinmarshall/truecall-api)
+# TrueCall API [![CI](https://github.com/alvinmarshall/truecall-api/actions/workflows/pr.yml/badge.svg)](https://github.com/alvinmarshall/truecall-api/actions/workflows/pr.yml) [![codecov](https://codecov.io/gh/alvinmarshall/truecall-api/branch/main/graph/badge.svg)](https://codecov.io/gh/alvinmarshall/truecall-api)
 
 NestJS proxy for Truecaller phone lookups. Secured via Keycloak JWT. Built for iOS Shortcuts.
 
