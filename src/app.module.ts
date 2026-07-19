@@ -15,6 +15,7 @@ import { LoggingInterceptor } from './common/interceptors/logging.interceptor';
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
+      envFilePath: ['.env.local', '.env'],
       validationSchema: envSchema,
       validationOptions: { abortEarly: true },
     }),

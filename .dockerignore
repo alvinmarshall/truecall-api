@@ -1,0 +1,11 @@
+node_modules
+dist
+coverage
+src/coverage
+.env
+.env.*
+!.env.example
+*.log
+.git
+.husky
+eslint_report.json
