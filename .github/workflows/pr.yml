@@ -6,17 +6,19 @@ on:
 
 permissions:
   contents: write
+  checks: write
+  pull-requests: write
 
 jobs:
   check:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           ref: ${{ github.head_ref }}
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v7
         with:
           node-version: 22
           cache: yarn
@@ -35,12 +37,12 @@ jobs:
         continue-on-error: true
 
       - name: Annotate Code Linting Results
-        uses: ataylorme/eslint-annotate-action@v3
+        uses: ataylorme/eslint-annotate-action@v4
         with:
           report-json: "eslint_report.json"
 
       - name: Test with coverage
-        run: yarn run cu-test
+        run: yarn run test:cov
 
       - name: Generate Badge
         run: jest-coverage-badges output ".github/badges"
