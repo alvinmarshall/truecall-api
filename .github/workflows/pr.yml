@@ -24,23 +24,34 @@ jobs:
       - name: Install dependencies
         run: yarn install --frozen-lockfile
 
+      - name: Install Badge deps
+        run: npm install --global jest-coverage-badges
+
+
       - name: Lint
         run: yarn lint
+
+      - name: Save Code Linting Report JSON
+        run: yarn run lint:report
+        continue-on-error: true
+
+      - name: Annotate Code Linting Results
+        uses: ataylorme/eslint-annotate-action@v3
+        with:
+          report-json: "eslint_report.json"
 
       - name: Test with coverage
         run: yarn test --coverage
 
-      - name: Generate coverage badges
-        run: |
-          npm install --global jest-coverage-badges
-          jest-coverage-badges output ".github/badges"
+      - name: Generate Badge
+        run: jest-coverage-badges output ".github/badges"
 
-      - name: Commit coverage badges
+      - name: Commit and push the badge (if it changed)
         uses: EndBug/add-and-commit@v9
         with:
-          add: '.github/badges'
-          message: 'chore: update coverage badges'
           default_author: github_actions
+          message: 'docs(coverage) Add test coverage badge'
+          add: '*.svg'
 
       - name: Build
         run: yarn build
