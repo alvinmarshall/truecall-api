@@ -40,7 +40,7 @@ jobs:
           report-json: "eslint_report.json"
 
       - name: Test with coverage
-        run: yarn run cu-test
+        run: yarn run test:cov
 
       - name: Generate Badge
         run: jest-coverage-badges --input "./coverage" --output ".github/badges"
