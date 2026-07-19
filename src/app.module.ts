@@ -8,6 +8,7 @@ import { LoggerModule } from 'nestjs-pino';
 import { envSchema } from './config/env.schema';
 import { AuthModule } from './auth/auth.module';
 import { TokenModule } from './token/token.module';
+import { LookupModule } from './lookup/lookup.module';
 import { JwtThrottlerGuard } from './common/throttler/jwt-throttler.guard';
 import { LoggingInterceptor } from './common/interceptors/logging.interceptor';
 
@@ -59,6 +60,7 @@ import { LoggingInterceptor } from './common/interceptors/logging.interceptor';
     ScheduleModule.forRoot(),
     AuthModule,
     TokenModule,
+    LookupModule,
   ],
   providers: [
     LoggingInterceptor,
