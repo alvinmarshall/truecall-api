@@ -43,7 +43,7 @@ jobs:
         run: yarn run cu-test
 
       - name: Generate Badge
-        run: jest-coverage-badges output ".github/badges"
+        run: jest-coverage-badges --input "./coverage" --output ".github/badges"
 
       - name: Commit and push the badge (if it changed)
         uses: EndBug/add-and-commit@v10
