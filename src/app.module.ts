@@ -4,6 +4,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ThrottlerModule } from '@nestjs/throttler';
 import { LoggerModule } from 'nestjs-pino';
 import { envSchema } from './config/env.schema';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -48,6 +49,8 @@ import { envSchema } from './config/env.schema';
         ],
       }),
     }),
+
+    AuthModule,
   ],
 })
 export class AppModule {}
