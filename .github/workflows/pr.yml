@@ -27,7 +27,6 @@ jobs:
       - name: Install Badge deps
         run: npm install --global jest-coverage-badges
 
-
       - name: Lint
         run: yarn lint
 
@@ -41,7 +40,7 @@ jobs:
           report-json: "eslint_report.json"
 
       - name: Test with coverage
-        run: yarn test --coverage
+        run: yarn run cu-test
 
       - name: Generate Badge
         run: jest-coverage-badges output ".github/badges"
