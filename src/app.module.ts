@@ -1,10 +1,13 @@
 import { Module } from '@nestjs/common';
+import { APP_GUARD } from '@nestjs/core';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ThrottlerModule } from '@nestjs/throttler';
 import { LoggerModule } from 'nestjs-pino';
 import { envSchema } from './config/env.schema';
 import { AuthModule } from './auth/auth.module';
+import { JwtThrottlerGuard } from './common/throttler/jwt-throttler.guard';
+import { LoggingInterceptor } from './common/interceptors/logging.interceptor';
 
 @Module({
   imports: [
@@ -51,6 +54,10 @@ import { AuthModule } from './auth/auth.module';
     }),
 
     AuthModule,
+  ],
+  providers: [
+    LoggingInterceptor,
+    { provide: APP_GUARD, useClass: JwtThrottlerGuard },
   ],
 })
 export class AppModule {}
