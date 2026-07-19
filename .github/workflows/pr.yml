@@ -44,10 +44,13 @@ jobs:
       - name: Test with coverage
         run: yarn run test:cov
       - name: list dir
-        run: ls
+        run: |
+          ls
+          cd coverage
+          ls
 
       - name: Generate Badge
-        run: jest-coverage-badges --input "./coverage/coverage-summary.json" --output ".github/badges"
+        run: jest-coverage-badges output ".github/badges"
 
       - name: Commit and push the badge (if it changed)
         uses: EndBug/add-and-commit@v10
