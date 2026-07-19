@@ -41,6 +41,8 @@ jobs:
 
       - name: Test with coverage
         run: yarn run test:cov
+      - name: list dir
+        run: ls
 
       - name: Generate Badge
         run: jest-coverage-badges --input "./coverage" --output ".github/badges"
