@@ -14,8 +14,8 @@ export const envSchema = Joi.object({
   TC_PHONE_NUMBER: Joi.string().required(),
   TOKEN_TTL_BUFFER_SECONDS: Joi.number().default(43200),
 
-  TELEGRAM_BOT_TOKEN: Joi.string().required(),
-  TELEGRAM_CHAT_ID: Joi.string().required(),
+  TELEGRAM_BOT_TOKEN: Joi.string().optional(),
+  TELEGRAM_CHAT_ID: Joi.string().optional(),
 
   ENCRYPTION_KEY: Joi.string().hex().length(64).required(),
 
