@@ -24,14 +24,12 @@ Content-Type: application/x-www-form-urlencoded
 grant_type=client_credentials&client_id={{shortcutClientId}}&client_secret={{shortcutClientSecret}}
 
 > {%
-
   client.test("Request executed successfully", function () {
     client.assert(response.status === 200, "Response status is not 200");
     var body = response.body;
     client.log("Token used in this request: " + body.access_token);
-    client.global.set("admin_token", body.access_token);
+    client.global.set("shortcut_token", body.access_token);
   });
-
 %}
 
 ### ─────────────────────────────────────────────
@@ -65,3 +63,14 @@ Content-Type: application/json
   "requestId": "{{request_id}}",
   "otp": "<otp from SMS>"
 }
+
+### ─────────────────────────────────────────────
+### 6. Health Check (public — no auth)
+### ─────────────────────────────────────────────
+GET {{baseUrl}}/health
+
+### ─────────────────────────────────────────────
+### 7. Lookup Phone Number
+### ─────────────────────────────────────────────
+GET {{baseUrl}}/lookup?phone=+233200000000
+Authorization: Bearer {{shortcut_token}}
