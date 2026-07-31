@@ -21,10 +21,9 @@ export class LookupCacheService {
   async set(phoneE164: string, result: Record<string, unknown>): Promise<void> {
     const ttl = this.config.get<number>('CACHE_TTL_SECONDS') ?? 86_400;
     const expiresAt = new Date(Date.now() + ttl * 1_000);
-    await this.repo.upsert(
-      { phoneE164, result: result as object, expiresAt },
-      ['phoneE164'],
-    );
+    await this.repo.upsert({ phoneE164, result: result as object, expiresAt }, [
+      'phoneE164',
+    ]);
   }
 
   async invalidate(phoneE164: string): Promise<void> {
