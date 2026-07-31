@@ -10,11 +10,13 @@ import { LookupController } from './lookup.controller';
 import { TokenModule } from '../token/token.module';
 
 @Module({
-  imports: [
-    TypeOrmModule.forFeature([LookupCache, AuditLog]),
-    TokenModule,
+  imports: [TypeOrmModule.forFeature([LookupCache, AuditLog]), TokenModule],
+  providers: [
+    LookupCacheService,
+    AuditService,
+    TruecallerService,
+    LookupService,
   ],
-  providers: [LookupCacheService, AuditService, TruecallerService, LookupService],
   controllers: [LookupController],
 })
 export class LookupModule {}
