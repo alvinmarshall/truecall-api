@@ -19,10 +19,7 @@ const makeApp = async (
   const mockDb: Partial<TypeOrmHealthIndicator> = {
     pingCheck: jest.fn().mockImplementation((key: string) => {
       if (!dbUp) {
-        throw new HealthCheckError(
-          'DB down',
-          { [key]: { status: 'down' } },
-        );
+        throw new HealthCheckError('DB down', { [key]: { status: 'down' } });
       }
       return Promise.resolve({ [key]: { status: 'up' } });
     }),
@@ -31,10 +28,9 @@ const makeApp = async (
   const mockTcToken: Partial<TruecallerTokenHealthIndicator> = {
     isHealthy: jest.fn().mockImplementation((key: string) => {
       if (!tokenValid) {
-        throw new HealthCheckError(
-          'Token expired',
-          { [key]: { status: 'down', hoursRemaining: 0 } },
-        );
+        throw new HealthCheckError('Token expired', {
+          [key]: { status: 'down', hoursRemaining: 0 },
+        });
       }
       return Promise.resolve({ [key]: { status: 'up', hoursRemaining: 47 } });
     }),
@@ -74,11 +70,15 @@ describe('HealthController (integration)', () => {
 
   it('GET /health → 503 when DB check fails', async () => {
     app = await makeApp(false, true);
-    await request(app.getHttpServer() as Server).get('/health').expect(503);
+    await request(app.getHttpServer() as Server)
+      .get('/health')
+      .expect(503);
   });
 
   it('GET /health → 503 when TC token check fails', async () => {
     app = await makeApp(true, false);
-    await request(app.getHttpServer() as Server).get('/health').expect(503);
+    await request(app.getHttpServer() as Server)
+      .get('/health')
+      .expect(503);
   });
 });
